@@ -17,6 +17,8 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+*-loc.properties
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
