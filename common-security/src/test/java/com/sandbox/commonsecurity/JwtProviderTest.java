@@ -1,4 +1,4 @@
-package com.sandbox.playgroundsecurity;
+package com.sandbox.commonsecurity;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.junit.jupiter.api.Test;

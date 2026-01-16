@@ -1,4 +1,4 @@
-package com.sandbox.playgroundsecurity.config;
+package com.sandbox.commonsecurity.config;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;

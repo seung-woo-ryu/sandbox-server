@@ -1,6 +1,6 @@
 package com.sandbox.playgroundapi.config;
 
-import com.sandbox.playgroundsecurity.config.SecurityExcludePathContributor;
+import com.sandbox.commonsecurity.config.SecurityExcludePathContributor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

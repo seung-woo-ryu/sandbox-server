@@ -1,6 +1,6 @@
-package com.sandbox.playgroundsecurity.config;
+package com.sandbox.commonsecurity.config;
 
-import com.sandbox.playgroundsecurity.JwtProvider;
+import com.sandbox.commonsecurity.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

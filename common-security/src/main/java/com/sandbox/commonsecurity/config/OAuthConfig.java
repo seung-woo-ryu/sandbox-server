@@ -1,6 +1,5 @@
-package com.sandbox.playgroundsecurity.config;
+package com.sandbox.commonsecurity.config;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +11,6 @@ import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -37,7 +35,7 @@ public class OAuthConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http, List<Customizer<HttpSecurity>> customizers, SecurityExcludePathProvider upperModuleExcludePathProvider) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, List<Customizer<HttpSecurity>> customizers, SecurityExcludePathProvider upperModuleExcludePathProvider, AuthenticationSuccessHandler authenticationSuccessHandler) throws Exception {
 		// 애플리케이션 부팅 시 exclude 목록을 한번 출력
 		upperModuleExcludePathProvider.getExcludePatterns().forEach((pattern, methods) ->
 			log.info("[SECURITY][EXCLUDE] pattern='{}' methods={}", pattern.getPatternString(), methods)
@@ -83,7 +81,7 @@ public class OAuthConfig {
 				.anyRequest().access(logAndAuthorize)
 			)
 			.oauth2Login(oauth -> oauth
-				.successHandler(successHandler())
+				.successHandler(authenticationSuccessHandler)
 				.failureHandler(failureHandler())
 				.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
 			)
@@ -100,34 +98,6 @@ public class OAuthConfig {
 		source.registerCorsConfiguration("/**", upperModuleConfiguration);
 		return source;
 	}
-
-
-	@Bean
-	public AuthenticationSuccessHandler successHandler() {
-		return (request, response, authentication) -> {
-			Object principal = authentication.getPrincipal();
-			if (!(principal instanceof OAuth2User oAuth2User)) {
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				return;
-			}
-
-			Object idAttr = oAuth2User.getAttributes().get("id");
-			String id = idAttr == null ? null : idAttr.toString();
-
-			String body = (id == null)
-				? "{\"id\":null}"
-				: "{\"id\":\"" + id.replace("\"", "\\\"") + "\"}";
-
-			response.setCharacterEncoding("UTF-8");
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
-			try (PrintWriter writer = response.getWriter()) {
-				writer.println(body);
-				writer.flush();
-			}
-		};
-	}
-
 
 	@Bean
 	public AuthenticationFailureHandler failureHandler() {

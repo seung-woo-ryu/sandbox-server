@@ -1,4 +1,4 @@
-package com.sandbox.playgroundsecurity.config;
+package com.sandbox.commonsecurity.config;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.PathContainer;
