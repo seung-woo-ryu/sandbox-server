@@ -22,5 +22,11 @@ public class Member {
 
     @Column(nullable = false, unique = true)
     private String nickname;
-}
 
+    public static Member of(String email, String nickname) {
+        Member m = new Member();
+        m.setEmail(email);
+        m.setNickname(nickname);
+        return m;
+    }
+}

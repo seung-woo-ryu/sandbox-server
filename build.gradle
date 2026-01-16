@@ -1,5 +1,4 @@
 plugins {
-    id 'java'
     id 'org.springframework.boot' version '4.0.1' apply false
     id 'io.spring.dependency-management' version '1.1.7' apply false
 }
@@ -8,59 +7,6 @@ allprojects {
     group = 'com.sandbox'
     version = '0.0.1-SNAPSHOT'
     description = 'sandbox-server'
-}
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-repositories {
-    maven {
-        url "https://nexus.hmc.co.kr/repository/maven-public/"
-    }
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-tasks.matching { it.name == "bootJar" }.configureEach {
-    enabled = false
-}
-
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'jacoco'  // 각 서브프로젝트에 JaCoCo 적용
-    apply plugin: 'java-library'
-
-    jacoco {
-        toolVersion = "0.8.11"  // JaCoCo 버전 지정
-    }
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
     repositories {
         maven {
@@ -68,15 +14,43 @@ subprojects {
         }
         mavenCentral()
     }
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:4.0.1"
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
-
 
     tasks.named('test') {
         useJUnitPlatform()
     }
+}
 
-
+// 실행 가능한 애플리케이션 모듈에만 Boot 플러그인 적용
+configure([project(':playground-api')]) {
+    apply plugin: 'org.springframework.boot'
 }
