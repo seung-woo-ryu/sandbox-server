@@ -40,6 +40,7 @@ public class OAuthConfig {
 		this.socialOAuth2UserService = socialOAuth2UserService;
 	}
 
+	// todo: csrf 토큰 검증 필터 추가 고려
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, List<Customizer<HttpSecurity>> customizers,
 												   SecurityExcludePathProvider upperModuleExcludePathProvider,
