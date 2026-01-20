@@ -1,6 +1,6 @@
 package com.sandbox.playgroundapi.config;
 
-import com.sandbox.commonsecurity.config.SecurityExcludePathContributor;
+import com.sandbox.commonsecurity.SecurityExcludePathContributor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,7 +9,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.Map;
 import java.util.Set;
 
-import static com.sandbox.playgroundapi.config.constant.ApiPrefixConstant.PUBLIC_API_V1;
+import static com.sandbox.playgroundapi.constant.ApiPrefixConstant.PUBLIC_API_V1;
 
 @Configuration
 public class SecurityConfig {
