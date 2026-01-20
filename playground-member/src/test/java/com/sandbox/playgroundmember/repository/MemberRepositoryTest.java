@@ -1,5 +1,6 @@
 package com.sandbox.playgroundmember.repository;
 
+import com.sandbox.common.security.SecurityRole;
 import com.sandbox.playgroundmember.TestBootConfiguration;
 import com.sandbox.playgroundmember.entity.Member;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class MemberRepositoryTest {
 
     @Test
     void saveAndFindByEmail() {
-        Member m = Member.of("repo-test@example.com", "repoNick");
+        Member m = Member.createWithRole("repo-test@example.com", "repoNick", SecurityRole.USER);
         memberRepository.save(m);
 
         Optional<Member> found = memberRepository.findByEmail("repo-test@example.com");
@@ -30,7 +31,7 @@ public class MemberRepositoryTest {
 
     @Test
     void existsChecks() {
-        memberRepository.save(Member.of("exists-test@example.com", "existsNick"));
+        memberRepository.save(Member.createWithRole("exists-test@example.com", "existsNick",SecurityRole.USER));
 
         assertTrue(memberRepository.existsByEmail("exists-test@example.com"));
         assertTrue(memberRepository.existsByNickname("existsNick"));

@@ -1,5 +1,6 @@
 package com.sandbox.playgroundmember.service;
 
+import com.sandbox.common.security.SecurityRole;
 import com.sandbox.playgroundmember.TestBootConfiguration;
 import com.sandbox.playgroundmember.entity.Member;
 import com.sandbox.playgroundmember.repository.MemberRepository;
@@ -38,7 +39,7 @@ public class MemberServiceTest {
 
     @Test
     void createMember_duplicateEmail_throws() {
-        memberRepository.save(Member.of("dup@example.com", "dup1"));
+        memberRepository.save(Member.createWithRole("dup@example.com", "dup1", SecurityRole.USER));
 
         assertThrows(IllegalArgumentException.class, () ->
                 memberService.createMember("dup@example.com", "dup2")

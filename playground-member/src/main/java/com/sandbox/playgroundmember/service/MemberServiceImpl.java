@@ -1,5 +1,6 @@
 package com.sandbox.playgroundmember.service;
 
+import com.sandbox.common.security.SecurityRole;
 import com.sandbox.playgroundmember.entity.Member;
 import com.sandbox.playgroundmember.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 		if (memberRepository.existsByNickname(nickname)) {
 			throw new IllegalArgumentException("Nickname already exists: " + nickname);
 		}
-		Member member = Member.of(email, nickname);
+		Member member = Member.createWithRole(email, nickname, SecurityRole.USER);
 		return memberRepository.save(member);
 	}
 
