@@ -1,6 +1,8 @@
 rootProject.name = 'sandbox-server'
 
 include 'playground-api'
-include 'common-security'
 include 'playground-member'
+
+include 'common-security'
+include 'common-cache'
 include 'common'

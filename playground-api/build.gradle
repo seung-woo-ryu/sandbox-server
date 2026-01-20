@@ -29,6 +29,7 @@ dependencies {
 	implementation project(':common-security')
 	implementation project(':playground-member')
 	implementation project(':common')
+	implementation project(':common-cache')
 }
 
 tasks.named('test') {
