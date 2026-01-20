@@ -1,6 +1,5 @@
 package com.sandbox.playgroundapi.controller;
 
-import com.sandbox.commonsecurity.JwtProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +11,6 @@ import java.net.URI;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
-	private final JwtProvider jwtProvider;
-
-	public AuthController(JwtProvider jwtProvider) {
-		this.jwtProvider = jwtProvider;
-	}
-
 	/**
 	 * 일반적인 패턴: 프론트는 "보안 프레임워크 기본 URL"을 몰라도 되게,
 	 * 앱 전용 엔드포인트(/auth/oauth2/kakao)로만 로그인 시작을 트리거하고,
