@@ -45,6 +45,7 @@ public class OAuthConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http, List<Customizer<HttpSecurity>> customizers,
 												   SecurityExcludePathProvider upperModuleExcludePathProvider,
 												   AuthenticationSuccessHandler authenticationSuccessHandler,
+												   AuthenticationFailureHandler authenticationFailureHandler,
 												   JwtDecoder jwtDecoder,
 												   Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationTokenConverter) throws Exception {
 		// 애플리케이션 부팅 시 exclude 목록을 한번 출력
@@ -93,7 +94,7 @@ public class OAuthConfig {
 			)
 			.oauth2Login(oauth2 -> oauth2
 				.successHandler(authenticationSuccessHandler)
-				.failureHandler(failureHandler())
+				.failureHandler(authenticationFailureHandler)
 				.userInfoEndpoint(userInfo -> userInfo.userService(socialOAuth2UserService))
 			)
 			.oauth2ResourceServer(oauth2 -> oauth2
